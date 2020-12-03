@@ -1,0 +1,615 @@
+openapi: 3.0.0
+info:
+  description: | 
+    API Specification
+  version: "1.0.0"
+  title: Squares
+  contact:
+    email: ilyalyov@mail.com
+    name: Ilya
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local dev server
+tags:
+  - name: user
+    description: Operations about users
+  - name: friend
+    description: Operations about friends
+  - name: pull
+    description: Operations about player's pull
+  - name: game
+    description: Operations about games
+externalDocs:
+  url: https://github.com/ilyalevushkin/computer_networks/project
+  description: Github repository
+paths:
+  /users:
+    get:
+      summary: Get a list of all users
+      description: This can only be done by the logged_in_staff user.
+      operationId: getUsers
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+                  
+      tags:
+        - user
+  /users/signup:
+    post:
+      summary: Create user
+      description: This can only be done by anyone.
+      operationId: createUser
+      requestBody:
+        description: Task to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: successful operation
+        '200':
+          description: user exists
+      tags:
+        - user
+  /users/signin:
+    post:
+      summary: Logs user into the system
+      operationId: loginUser
+      requestBody:
+        description: Task to login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User_signin'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid username/password
+      tags:
+        - user
+  /users/signout:
+    get:
+      summary: Logs out current logged in user session
+      operationId: logoutUser
+      responses:
+        '200':
+          description: successful operation
+      tags:
+        - user
+  /users/{userId}:
+    get:
+      summary: Get user
+      description: This can only be done by authorised user.
+      operationId: getUser
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - user
+    patch:
+      summary: Update user
+      description: This can only be done by authorized user.
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          required: true
+      requestBody:
+        description: User to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User_update'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      tags:
+        - user
+  /friends:
+    get:
+      summary: Get user_friends or friend_users
+      description: This can only be done by authorized user.
+      operationId: getUserFriends
+      parameters:
+        - in: query
+          name: reverse
+          schema:
+            type: boolean
+          required: false
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friendship'
+      tags:
+        - friend
+    post:
+      summary: Add friend
+      description: This can only be done by authorized user.
+      operationId: addFriend
+      requestBody:
+        description: Friend to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Friendship'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friendship'
+      tags:
+      - friend
+  /friends/{friendId}:
+    get:
+      summary: Get friend
+      description: This can only be done by authorised user.
+      operationId: getFriend
+      parameters:
+        - in: path
+          name: friendId
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friendship'
+      tags:
+        - friend
+    patch:
+      summary: Update friend status
+      description: This can only be done by authorized user.
+      operationId: updateStatusFriend
+      parameters:
+        - in: path
+          name: friendId
+          schema:
+            type: integer
+            format: int64
+          required: true
+      requestBody:
+        description: Friend to add
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friendship'
+      tags:
+      - friend
+    delete:
+      summary: Delete friend
+      description: This can only be done by authorised user.
+      operationId: deleteFriend
+      parameters:
+        - in: path
+          name: friendId
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        '200':
+          description: successful operation
+        '403':
+          description: forbidden operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '404':
+          description: friend was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      tags:
+        - friend
+  /pull_players:
+    get:
+      summary: Get players in pull
+      description: This can only be done by authorized user. Get all players that are waiting in pull.
+      operationId: getPullPlayers
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pull_player'
+        '403':
+          description: forbidden operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      tags:
+        - pull
+    post:
+      summary: Add self to pull
+      description: This can only be done by authorized user.
+      operationId: addPullPlayer
+      responses:
+        '201':
+          description: successful operation
+        '403':
+          description: forbidden operation. User is already in pull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      tags:
+      - pull
+    delete:
+      summary: Delete user from pull
+      description: This can only be done by authorized user.
+      operationId: deletePullPlayer
+      responses:
+        '200':
+          description: successful operation
+        '403':
+          description: forbidden operation. User is not in pull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      tags:
+      - pull
+  /games:
+    get:
+      summary: Get all games
+      description: This can only be done by authorised admin.
+      operationId: getGames
+      parameters:
+        - in: query
+          name: active
+          schema:
+            type: boolean
+          required: true
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+        '403':
+          description: forbidden operation. User is not admin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      tags:
+        - game
+    post:
+      summary: Create Game
+      description: This can only be done by authorised user.
+      operationId: createGame
+      requestBody:
+        description: Game to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '403':
+          description: forbidden operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      tags:
+      - game
+  /games/{gameId}:
+    get:
+      summary: Get Game
+      description: This can only be done by authorised user.
+      operationId: getGame
+      parameters:
+        - in: path
+          name: gameId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '403':
+          description: forbidden operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '404':
+          description: game was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      tags:
+        - game
+    patch:
+      summary: Update Game
+      description: This can only be done by authorized user.
+      operationId: updateGame
+      parameters:
+        - in: path
+          name: gameId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        description: Game to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game_state_update'
+      responses:
+        '200':
+          description: successful operation
+        '403':
+          description: forbidden operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: bad request. User cheats.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '404':
+          description: game was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      tags:
+        - game
+    delete:
+      summary: Delete Game
+      description: This can only be done by authorised admin.
+      operationId: deleteGame
+      parameters:
+        - in: path
+          name: gameId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: successful operation
+        '403':
+          description: forbidden operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '404':
+          description: game was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      tags:
+        - game
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        user:
+          type: object
+          properties:
+            username:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+              writeOnly: true
+        phone:
+          type: string
+        about:
+          type: string
+        photo:
+          type: string
+      required:
+        - username
+        - email
+        - password
+    Friendship:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          writeOnly: true
+        user_friend:
+          allOf:
+            - $ref: '#/components/schemas/User'
+            - readOnly: true
+        friend:
+          allOf:
+            - $ref: '#/components/schemas/User'
+            - readOnly: true
+        status:
+          type: string
+    User_update:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            username:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+              writeOnly: true
+        phone:
+          type: string
+        about:
+          type: string
+        photo:
+          type: string
+          format: binary
+    User_signin:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+        - username
+        - password
+    Status:
+      type: object
+      properties:
+        ready_to_play:
+          type: boolean
+    Pull_player:
+      type: object
+      properties:
+        player:
+          $ref: '#/components/schemas/User'
+        date_time_appear:
+          type: string
+          readOnly: true
+    Game_state:
+      type: object
+      properties:
+        status:
+          type: string
+        turn:
+          type: string
+        player_1_points:
+          type: integer
+        player_2_points:
+          type: integer
+        columns:
+          type: integer
+        rows:
+          type: integer
+        table_with_chips:
+          type: string
+    Game:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        player_1_id:
+          type: integer
+          format: int64
+        player_2_id:
+          type: integer
+          format: int64
+        game_state:
+          $ref: '#/components/schemas/Game_state'
+        date_time_from:
+          type: string
+        date_time_to:
+          type: string
+      required:
+        - player_1
+        - player_2
+    Game_state_update:
+      type: object
+      properties:
+        column_pos:
+          type: integer
+        row_pos:
+          type: integer
+        value:
+          type: string
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string

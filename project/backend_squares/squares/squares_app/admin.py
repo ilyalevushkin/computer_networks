@@ -3,4 +3,6 @@ from .models import *
 
 admin.site.register([Users,
                      Games,
-                     GameStates])
+                     GameStates,
+                     PullPlayers,
+                     Friends])

@@ -14,7 +14,7 @@ class GameStates(models.Model):
         ('2', 'Второй игрок')
     )
 
-    transmission_mechanism = models.CharField(max_length=2, choices=status_choices)
+    status = models.CharField(max_length=2, choices=status_choices)
     turn = models.CharField(max_length=1, choices=turn_choices)
     player_1_points = models.PositiveIntegerField(default=0)
     player_2_points = models.PositiveIntegerField(default=0)
@@ -22,3 +22,8 @@ class GameStates(models.Model):
     columns = models.PositiveIntegerField(default=11)
     rows = models.PositiveIntegerField(default=11)
     table_with_chips = models.TextField(default='0'*11*11)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.status
