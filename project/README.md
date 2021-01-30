@@ -13,6 +13,6 @@
 * Редактирование профиля и текущих игр пользователей администратором
 
 ## Use-case диаграмма
-![Изображение](https://github.com/ilyalevushkin/computer_networks/tree/main/project/doc/img/use_case.png)
+![Изображение](https://github.com/ilyalevushkin/computer_networks/tree/main/project/doc/img/use-case.pdf)
 ## Er диаграмма
-![Изображение](https://github.com/ilyalevushkin/computer_networks/tree/main/project/doc/img/er.png)
+![Изображение](https://github.com/ilyalevushkin/computer_networks/tree/main/project/doc/img/er.pdf)
