@@ -1,0 +1,4 @@
+[fetch]
+	recurseSubmodules = false
+[http "https://git.iu7.bmstu.ru"]
+	sslCAInfo = /Users/ilalevuskin/github/GitHub/computer_networks/project/backend_squares/squares/scripts/builds/JL-1Zprh/0/lik17u699/squares.tmp/CI_SERVER_TLS_CA_FILE

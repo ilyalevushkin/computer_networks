@@ -1,0 +1,8 @@
+stages:
+  - tests
+
+
+test-backend:
+    stage: tests
+    script:
+      - ./backend_squares/squares/scripts/run_squares_tests.sh

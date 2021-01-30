@@ -1,0 +1,7 @@
+Django
+djangorestframework
+djangorestframework-jwt
+drf-yasg
+Pillow
+PyJWT
+psycopg2-binary

@@ -1,0 +1,69 @@
+.mat-toolbar {
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  height: 91px;
+  background-color: #163650;
+
+  .logo {
+    width: 63px;
+    height: 70px;
+    margin-left: calc(50% - 63px/2 - 575px);
+    border-radius: 30px;
+    background-image: url(/assets/img/logo.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .breakline {
+    height: 27px;
+    margin-left: 30px;
+  }
+  .navigation {
+    margin-left: 30px;
+    .nav_button {
+      margin-left: 30px;
+    }
+  }
+
+  .user_button {
+      width: 318px;
+      height: 56px;
+      margin-left: 350px;
+  }
+
+  .user {
+    width: 318px;
+    height: 56px;
+    margin-left: -318px;
+    display: -webkit-flex;
+    display: flex;
+    .user_icon {
+      margin-right: 30px;
+      width: 56px;
+      //height: 56px;
+      border-radius: 50%;
+    }
+    .username {
+      padding-top: 9px;
+      margin-right: 25px;
+    }
+    .triangle_icon {
+      margin-top: 12px;
+      width: 32px;
+      height: 28px;
+      background-position: 0px -7px;
+      background-image: url(/assets/img/down.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .rotation {
+        transform: rotate(180deg);
+      }
+  }
+
+}
+
+p, span {
+  font-family: Comfortaa;
+  font-size: 28px;
+}

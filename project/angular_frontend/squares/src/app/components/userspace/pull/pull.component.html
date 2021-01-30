@@ -1,0 +1,55 @@
+
+<div class="userspace">
+  <app-panel></app-panel>
+  <div class="pull">
+    <div class="buttons">
+        <div class="header"><p class="friend_list_text"><strong>Список игроков</strong></p></div>
+        <button mat-button class="top_button play_button" [disabled]="!player_selected || self_added" (click)="startGame()">
+          <p class="button_text white_text">Играть</p>
+        </button>
+        <button mat-button class="top_button more_button" [disabled]="!player_selected" (click)="showPlayerInfo()" routerLink="/friend_profile">
+          <p class="button_text orange_text">Подробнее</p>
+        </button>
+        <div *ngIf="self_added; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <button mat-button class="top_button play_button" style="margin-right: 10px;" (click)="addSelfToPull(false)">
+            <p class="button_text white_text">Удалить себя из списка</p>
+          </button>
+        </ng-template>
+        <ng-template #elseBlock>
+          <button mat-button class="top_button play_button" style="margin-right: 10px;" (click)="addSelfToPull(true)">
+            <p class="button_text white_text">Добавить себя в список</p>
+          </button>
+        </ng-template>
+    </div>
+    <div class="friend_list">
+      <div class="friend_list_level_2">
+        <div class="space_between_words">
+        <p class="orange_text"><b>Игрок</b></p>
+        <p class="orange_text"><b>Имя</b></p>
+        <p class="orange_text"><b>Фамилия</b></p>
+        <p class="orange_text"><b>Email</b></p>
+        <p class="orange_text"><b>Телефон</b></p>
+      </div>
+      <button mat-button *ngFor="let player of pull_players_list[page].Pull_players; let i = index; even as e" (click)="playerSelect(player)" class="friend_button" [ngClass]="{'blue_button': e}">
+        <div class="space_between_words">
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{player.player?.user?.username}}</p>
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{player.player?.user?.first_name}}</p>
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{player.player?.user?.last_name}}</p>
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{player.player?.user?.email}}</p>
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{player.player?.phone}}</p>
+        </div>
+      </button>
+      </div>
+      <div class="navigation">
+        <div class="nav_items">
+          <button mat-button class="icon" [disabled]="page == 0" (click)="page = page - 1;"><img src="/assets/img/left.jpg" ></button>
+          <div class="blue_square" style="margin-left: 15px;"><p class="orange_text">{{page + 1}}</p></div>
+          <div class="of_between"><p class="orange_text">of</p></div>
+          <div class="blue_square" style="margin-right: 15px;"><p class="orange_text">{{pull_players_list.length}}</p></div>
+          <button mat-button class="icon" [disabled]="page + 1 == pull_players_list.length" (click)="page = page + 1;"><img src="/assets/img/right.jpg"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

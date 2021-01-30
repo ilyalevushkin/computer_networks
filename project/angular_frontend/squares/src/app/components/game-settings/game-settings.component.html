@@ -1,0 +1,48 @@
+<div class="registration_block">
+  <div class="header">
+    <p class="registration"><strong>Настройки игры</strong></p>
+  </div>
+  <div class="main_content">
+    <div class="content">
+      <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
+        <div class="fields">
+            <mat-form-field class="field" appearance="outline">
+              <mat-error
+             *ngIf="gameForm.get('turn')?.hasError('required')">
+             Username is <strong>required</strong>
+             </mat-error>
+              <mat-label>Первый ходит</mat-label>
+              <mat-select formControlName="turn">
+                <mat-option value="me">Я</mat-option>
+                <mat-option value="opponent">Противник</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="field" appearance="outline">
+              <mat-error
+             *ngIf="gameForm.get('rows')?.hasError('required')">
+             Email is <strong>required</strong>
+             </mat-error>
+              <mat-label>Длина доски</mat-label>
+              <input matInput formControlName="rows">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="outline">
+              <mat-error
+             *ngIf="gameForm.get('columns')?.hasError('required')">
+             Phone is <strong>required</strong>
+             </mat-error>
+              <mat-label>Ширина доски</mat-label>
+              <input matInput formControlName="columns">
+            </mat-form-field>
+        </div>
+        <div class="move_to_buttons">
+          <button [disabled]="loading" mat-button class="move_to_button next_button" type="submit">
+            <p class="button_text white_text">Начать игру</p>
+          </button>
+          <button mat-button class="move_to_button login_button" routerLink="/pull">
+            <p class="button_text orange_text">Отмена</p>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

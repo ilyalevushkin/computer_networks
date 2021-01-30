@@ -1,0 +1,55 @@
+<div class="profile_block">
+  <div class="header">
+    <p class="profile"><strong>Профиль {{user_info.user?.username}}</strong></p>
+  </div>
+  <div class="main_content">
+    <div class="buttons">
+        <button mat-button class="top_button back_button" routerLink="/game">Вернуться к игре</button>
+        <div *ngIf="is_already_friend; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <button mat-button class="top_button edit_button" (click)="deleteFriend()">Удалить из друзей</button>
+        </ng-template>
+        <ng-template #elseBlock>
+          <button mat-button class="top_button edit_button" (click)="addFriend()">Добавить в друзья</button>
+        </ng-template>
+    </div>
+    <div class="info_and_photo">
+      <div class="info_block">
+        <div class="info_item bottom_line">
+          <p class="item_explain">Игрок</p>
+          <p class="item_data">{{user_info.user?.username}}</p>
+        </div>
+        <div class="info_item bottom_line">
+          <p class="item_explain">Имя</p>
+          <p class="item_data">{{user_info.user?.first_name}}</p>
+        </div>
+        <div class="info_item bottom_line">
+          <p class="item_explain">Фамилия</p>
+          <p class="item_data">{{user_info.user?.last_name}}</p>
+        </div>
+        <div class="info_item bottom_line">
+          <p class="item_explain">Email</p>
+          <p class="item_data">{{user_info.user?.email}}</p>
+        </div>
+        <div class="info_item bottom_line">
+          <p class="item_explain">Телефон</p>
+          <p class="item_data">{{user_info?.phone}}</p>
+        </div>
+        <div class="info_item">
+          <p class="item_explain">Об игроке</p>
+          <textarea readonly class="item_data about">{{user_info?.about}}</textarea>
+        </div>
+      </div>
+      <div class="photo_block">
+          <img class="avatar" src="http://127.0.0.1:8000/api/v1{{user_info?.photo}}">
+          <div *ngIf="is_already_invited; then thenBlock2 else elseBlock2"></div>
+          <ng-template #thenBlock2>
+            <button mat-button class="top_button edit_button" (click)="inviteFriend(false)" [disabled]="!is_already_friend">Отменить приглашение</button>
+          </ng-template>
+          <ng-template #elseBlock2>
+            <button mat-button class="top_button edit_button" (click)="inviteFriend(true)" [disabled]="!is_already_friend">Пригласить в игру</button>
+          </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

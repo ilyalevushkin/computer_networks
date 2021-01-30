@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../example_angular/angular-lecture-master/.idea/angular-lecture-master.iml" filepath="$PROJECT_DIR$/../../example_angular/angular-lecture-master/.idea/angular-lecture-master.iml" />
+      <module fileurl="file://$USER_HOME$/Downloads/BWAD-STD-master/backend/.idea/backend.iml" filepath="$USER_HOME$/Downloads/BWAD-STD-master/backend/.idea/backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../.idea/backend_squares.iml" filepath="$PROJECT_DIR$/../.idea/backend_squares.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../angular_frontend/squares/.idea/squares.iml" filepath="$PROJECT_DIR$/../../angular_frontend/squares/.idea/squares.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../bd_cursach/project_for_bd/virus_project/virus_app/.idea/virus_app.iml" filepath="$PROJECT_DIR$/../../../../bd_cursach/project_for_bd/virus_project/virus_app/.idea/virus_app.iml" />
+    </modules>
+  </component>
+</project>

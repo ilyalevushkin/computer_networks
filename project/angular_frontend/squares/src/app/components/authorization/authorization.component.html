@@ -1,0 +1,37 @@
+<div class="registration_block">
+  <div class="header">
+    <p class="registration"><strong>Авторизация</strong></p>
+  </div>
+  <div class="main_content">
+    <div class="content">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="fields">
+            <mat-form-field class="field" appearance="outline">
+              <mat-error
+             *ngIf="loginForm.get('username')?.hasError('required')">
+             Username is <strong>required</strong>
+             </mat-error>
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username">
+            </mat-form-field>
+            <mat-form-field class="field" appearance="outline">
+              <mat-error
+             *ngIf="loginForm.get('password')?.hasError('required')">
+             Password is <strong>required</strong>
+             </mat-error>
+              <mat-label>Password</mat-label>
+              <input type="password" matInput formControlName="password">
+            </mat-form-field>
+        </div>
+        <div class="move_to_buttons">
+          <button [disabled]="loading" mat-button class="move_to_button next_button" type="submit">
+            <p class="button_text white_text">Войти</p>
+          </button>
+          <button mat-button class="move_to_button login_button" routerLink="/signup">
+            <p class="button_text orange_text">Регистрация</p>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

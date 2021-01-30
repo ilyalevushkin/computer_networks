@@ -1,0 +1,33 @@
+
+<div class="userspace">
+  <app-panel></app-panel>
+  <div class="game">
+    <div class="side_buttons">
+      <button mat-mini-fab class="side_button settings"></button>
+      <button mat-mini-fab class="side_button exit"></button>
+    </div>
+    <div class="main_body">
+      <app-score-list class="score opponent_score"></app-score-list>
+      <div class="main_game">
+        <div class="time_buttons">
+          <button mat-button class="time_button">
+            <div class="player">
+              <img class="user_icon" src="http://127.0.0.1:8000/api/v1{{cur_game?.player_1?.photo}}">
+              <p class="white_text text">{{cur_game?.player_1?.user?.username}}</p>
+            </div>
+            <div class="timer_block"><p class="white_text">{{opponent_timer}}</p></div>
+          </button>
+          <button mat-button class="time_button">
+            <div class="player">
+              <img class="user_icon" src="http://127.0.0.1:8000/api/v1{{cur_game?.player_2?.photo}}">
+              <p class="white_text text">{{cur_game?.player_2?.user?.username}}</p>
+            </div>
+            <div class="timer_block"><p class="white_text">{{my_timer}}</p></div>
+          </button>
+        </div>
+        <app-game-block [cur_game]="cur_game" [hidden]="!cur_game && cur_game?.id == -1"></app-game-block>
+      </div>
+      <app-score-list class="score my_score"></app-score-list>
+    </div>
+  </div>
+</div>

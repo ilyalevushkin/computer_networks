@@ -1,0 +1,14 @@
+
+<div class="game_block">
+  <button mat-button *ngFor="let cell of cur_game.game_state.table_with_chips.split('');
+  let i = index; even as e"
+          (click)="cellSelect(i, cur_game?.game_state?.columns, cur_game?.game_state?.rows)" class="cell_button"
+          [ngStyle]="{'width': get_percent_length(cur_game.game_state.columns),
+          'height': get_percent_length(cur_game.game_state.rows)}"
+          [disabled]="cell !== '0' || not_my_turn()"
+          [ngClass]="{'bright_color': is_cell_bright(i, cur_game.game_state.columns),
+          'dark_color': !is_cell_bright(i, cur_game.game_state.columns),
+          'blue_button': cur_game.game_state.table_with_chips[i] == '1',
+          'red_button': cur_game.game_state.table_with_chips[i] == '2'}">
+  </button>
+</div>

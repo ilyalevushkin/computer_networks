@@ -1,0 +1,46 @@
+
+<div class="friend_list_block">
+  <div class="header"><p class="friend_list_text"><strong>Список друзей</strong></p></div>
+  <div class="main_content">
+    <div class="buttons">
+        <button mat-button class="top_button game_button" routerLink="/game">
+          <p class="button_text white_text">Вернуться к игре</p>
+        </button>
+        <button mat-button class="top_button play_button">
+          <p class="button_text white_text">Играть</p>
+        </button>
+        <button mat-button class="top_button more_button" [disabled]="!friend_selected" (click)="showFriendInfo()" routerLink="/friend_profile">
+          <p class="button_text orange_text">Подробнее</p>
+        </button>
+    </div>
+    <div class="friend_list">
+      <div class="friend_list_level_2">
+        <div class="space_between_words">
+        <p class="orange_text"><b>Игрок</b></p>
+        <p class="orange_text"><b>Имя</b></p>
+        <p class="orange_text"><b>Фамилия</b></p>
+        <p class="orange_text"><b>Email</b></p>
+        <p class="orange_text"><b>Готовность к игре</b></p>
+      </div>
+      <button mat-button *ngFor="let friend of friends_list[page].Friends; let i = index; even as e" (click)="friendSelect(friend)" class="friend_button" [ngClass]="{'blue_button': e}">
+        <div class="space_between_words">
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{friend.friend?.user?.username}}</p>
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{friend.friend?.user?.first_name}}</p>
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{friend.friend?.user?.last_name}}</p>
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{friend.friend?.user?.email}}</p>
+          <p [ngClass]="{'orange_text': e, 'black_text': !e}">{{getFriendStatus(friend)}}</p>
+        </div>
+      </button>
+      </div>
+      <div class="navigation">
+        <div class="nav_items">
+          <button mat-button class="icon" [disabled]="page == 0" (click)="page = page - 1;"><img src="/assets/img/left.jpg" ></button>
+          <div class="blue_square" style="margin-left: 15px;"><p class="orange_text">{{page + 1}}</p></div>
+          <div class="of_between"><p class="orange_text">of</p></div>
+          <div class="blue_square" style="margin-right: 15px;"><p class="orange_text">{{friends_list.length}}</p></div>
+          <button mat-button class="icon" [disabled]="page + 1 == friends_list.length" (click)="page = page + 1;"><img src="/assets/img/right.jpg"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

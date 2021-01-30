@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/Downloads/networking-course-project-main/backend/.idea/backend.iml" filepath="$USER_HOME$/Downloads/networking-course-project-main/backend/.idea/backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend_squares/.idea/backend_squares.iml" filepath="$PROJECT_DIR$/backend_squares/.idea/backend_squares.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../protect information/lab4/.idea/lab4.iml" filepath="$PROJECT_DIR$/../../protect information/lab4/.idea/lab4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/project.iml" filepath="$PROJECT_DIR$/.idea/project.iml" />
+      <module fileurl="file://$USER_HOME$/Downloads/python-flask-server-generated/.idea/python-flask-server-generated.iml" filepath="$USER_HOME$/Downloads/python-flask-server-generated/.idea/python-flask-server-generated.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../swagger_project_example/drf-yasg/testproj/.idea/testproj.iml" filepath="$PROJECT_DIR$/../../swagger_project_example/drf-yasg/testproj/.idea/testproj.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../bd_cursach/project_for_bd/virus_project/.idea/virus_project.iml" filepath="$PROJECT_DIR$/../../bd_cursach/project_for_bd/virus_project/.idea/virus_project.iml" />
+    </modules>
+  </component>
+</project>

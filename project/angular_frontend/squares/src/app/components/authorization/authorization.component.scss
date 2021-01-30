@@ -1,0 +1,83 @@
+.registration_block {
+  width: 600px;
+  height: 350px;
+  margin-left: 420px;
+  margin-top: 80px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  .header {
+    height: 25%;
+
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .registration {
+      color: #F26B1D;
+      //float: left;
+      //left: 50%;
+
+      font-family: Comfortaa;
+      font-size: 45px;
+    }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  }
+
+  .main_content {
+    height: 75%;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+
+    .content {
+      display: -webkit-flex;
+      display: flex;
+      flex-direction: column;
+        .fields {
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        margin-top: 30px;
+        .field {
+          width: 450px;
+        }
+      }
+      .move_to_buttons {
+        .button_text {
+          margin-top: 2px;
+          font-family: Comfortaa;
+          font-size: 17px;
+        }
+        .white_text {
+          color: #FFFFFF;
+        }
+        .orange_text {
+          color: #F26B1D;
+        }
+        .move_to_button {
+          border-radius: 10px;
+          box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.25);
+          width: 100px;
+          height: 40px;
+        }
+        .to_game_button {
+          float: left;
+          background-color: #10CD45;
+        }
+        .login_button {
+          float: right;
+          background-color: #DCEEF2;
+          margin-right: 10px;
+          width: 150px;
+        }
+        .next_button {
+          float: right;
+          background-color: #10CD45;
+        }
+      }
+    }
+  }
+
+}

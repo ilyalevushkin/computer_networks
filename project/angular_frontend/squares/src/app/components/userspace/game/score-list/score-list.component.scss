@@ -1,0 +1,23 @@
+
+.score_list {
+  width: 268px;
+  height: 599px;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+
+
+  .score_p {
+    text-align: center;
+    font-family: Comfortaa;
+    font-size: 28px;
+    color: #F26B1D;
+  }
+
+  .score_block {
+    background-color: #80ADCB;
+    height: 100%;
+    border-radius: 10px;
+  }
+
+}

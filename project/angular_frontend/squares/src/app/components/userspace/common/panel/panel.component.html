@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+      <button mat-button routerLink="/game" class="logo"></button>
+      <p class="breakline">|</p>
+      <div class="navigation">
+          <button mat-button class="nav_button" routerLink="/game"><p>игра</p></button>
+          <button mat-button class="nav_button" routerLink="/pull"><p>пул</p></button>
+          <button mat-button class="nav_button" routerLink="/rules"><p>правила</p></button>
+      </div>
+      <button mat-button [matMenuTriggerFor]="user" class="user_button" (click)="changeBtnState()"></button>
+      <div class="user">
+        <img class="user_icon" src="http://127.0.0.1:8000/api/v1{{user_info?.photo}}">
+        <span class="username">{{user_info?.username}}</span>
+        <div class="triangle_icon" [ngClass]="{'rotation': btnPressed}"></div>
+      </div>
+      <mat-menu #user="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/profile">Профиль</button>
+        <button mat-menu-item routerLink="/friend_list">Список друзей</button>
+        <button mat-menu-item (click)="logout()">Выйти</button>
+      </mat-menu>
+</mat-toolbar>

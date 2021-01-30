@@ -1,0 +1,27 @@
+<mat-card matRipple>
+    <div class="card-container">
+        <div class="stats-container">
+            <div [ngClass]="{
+                    'green-stat': question.rating > 0,
+                    'grey-stat': question.rating == 0,
+                    'red-stat': question.rating < 0
+                }" class="stats"
+            >
+                <strong>{{question.rating}}</strong>
+                <span>Рейтинг</span>
+            </div>
+            <div class="stats grey-stat">
+                <strong>{{question.answers.length}}</strong>
+                <span>Ответов</span>
+            </div>
+        </div>
+
+        <div class="comment-container">
+            <h2>{{question.theme}}</h2>
+            <div class="comment-footer">
+                <app-tag-list [tagList]="question.tags"></app-tag-list>
+                <span>{{question.user.name}} {{question.user.surname}}</span>
+            </div>
+        </div>
+    </div>
+</mat-card>

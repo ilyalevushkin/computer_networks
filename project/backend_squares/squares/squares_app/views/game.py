@@ -40,7 +40,8 @@ class GamesView(APIView):
             validated_data = serializer.validated_data
             if self.logic.is_user_valid(validated_data['player_1_id'], request.user.pk,
                                         validated_data['player_2_id']):
-                game = self.manager.create_note(validated_data)
+                create_data = self.logic.start_game(validated_data)
+                game = self.manager.create_note(create_data)
 
                 serializer = GamesResponseSerializer(game, many=False)
                 json_data = serializer.data
@@ -59,7 +60,7 @@ class GameView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
-    # получает информацию о конкретной игре
+    # получает информацию о конкретной игре по id
     def get(self, request, pk):
         if not self.logic.game_exists(pk):
             return Response('Game does not exist', status=status.HTTP_404_NOT_FOUND)
@@ -69,7 +70,7 @@ class GameView(APIView):
             serializer = GamesResponseSerializer(query_set, many=False)
             json_data = serializer.data
 
-            return Response({'Game': json_data})
+            return Response({'Game': json_data}, status=status.HTTP_200_OK)
         else:
             return Response('User has no rights for this operation', status=status.HTTP_403_FORBIDDEN)
 
@@ -110,3 +111,27 @@ class GameView(APIView):
             return Response({"success": f"Game {pk} was deleted successfully"}, status=status.HTTP_200_OK)
         else:
             return Response('User has no rights for this operation', status=status.HTTP_403_FORBIDDEN)
+
+class GameCurView(APIView):
+    manager = GamesCRUD()
+    logic = GamesLogic()
+
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    # получает информацию о конкретной (активной) игре/ах по id user
+    def get(self, request, users_pk):
+        if request.query_params['active'] == '1':
+            query_set = self.manager.get_active_note_by_users_pk(users_pk)
+
+            serializer = GamesResponseSerializer(query_set, many=False)
+            json_data = serializer.data
+
+            return Response({'Game': json_data}, status=status.HTTP_200_OK)
+        else:
+            query_set = self.manager.get_notes_by_users_pk(users_pk)
+
+            serializer = GamesResponseSerializer(query_set, many=True)
+            json_data = serializer.data
+
+            return Response({'Games': json_data}, status=status.HTTP_200_OK)

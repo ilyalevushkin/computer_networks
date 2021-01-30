@@ -1,0 +1,109 @@
+
+.userspace {
+  margin-top: 39px;
+  width: 1315px;
+  height: 861px;
+
+
+  margin-left: auto;
+  margin-right: auto;
+
+  /* shadow1 */
+  filter: drop-shadow(0px 10px 50px rgba(0, 0, 0, 0.25));
+}
+
+.game {
+  height: 100%;
+  background-color: #DCEEF2;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+
+  .side_buttons {
+    margin-top: 12px;
+    margin-left: 12px;
+    margin-right: 12px;
+    .side_button {
+      width: 41px;
+      height: 41px;
+      border-radius: 10px;
+      box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.25);
+      background-color: #10CD45;
+    }
+    .settings {
+      float: left;
+      background-image: url(/assets/img/settings.png);
+      //background-position: 0px -7px;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .exit {
+      float: right;
+      background-image: url(/assets/img/exit.png);
+      //background-position: 0px -7px;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+  }
+
+  .main_body {
+    margin-left: 56px;
+    margin-top: 22px;
+    margin-right: 56px;
+    width: 1214px;
+    height: 639px;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .score {
+      margin-top: auto;
+      margin-bottom: 0px;
+    }
+    .main_game {
+      margin-top: auto;
+      margin-bottom: 0px;
+      .time_buttons {
+        margin-bottom: 12px;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .time_button {
+          width: 227px;
+          height: 85px;
+          border-radius: 10px;
+          background-color: #10CD45;
+          box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.25);
+          .player {
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: row;
+            .user_icon {
+              margin-top: 10px;
+              width: 60px;
+              height: 60px;
+              border-radius: 50%;
+            }
+            .text {
+              margin-left: 15%;
+              margin-top: 10px;
+            }
+          }
+          .timer_block {
+            margin-top: -20px;
+            margin-left: 15%;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.white_text {
+  font-family: Comfortaa;
+  font-size: 28px;
+  color: #FFFFFF;
+}

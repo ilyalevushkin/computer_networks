@@ -1,0 +1,108 @@
+
+<div class="profile_block">
+  <div class="header">
+    <p class="profile"><strong>Профиль {{user_info.user?.username}}</strong></p>
+  </div>
+  <div class="main_content">
+    <div class="buttons">
+      <div *ngIf="edit_mode; then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+        <button mat-button class="top_button edit_button" (click)="save_all()">Сохранить</button>
+      </ng-template>
+      <ng-template #elseBlock>
+        <button mat-button class="top_button back_button" routerLink="/game">Вернуться к игре</button>
+        <button mat-button class="top_button edit_button" (click)="edit_mode = true;">Редактировать</button>
+      </ng-template>
+    </div>
+    <div class="info_and_photo">
+      <div class="info_block" [ngClass]="{'move_on_top': edit_mode}">
+        <div class="info_item bottom_line">
+          <p class="item_explain">Игрок</p>
+          <div *ngIf="edit_mode; then thenBlock2 else elseBlock2"></div>
+            <ng-template #thenBlock2>
+                <mat-form-field class="edit_item_data" appearance="outline">
+                <mat-label>{{user_info.user?.username}}</mat-label>
+                <input matInput [(ngModel)]="user_info.user.username">
+              </mat-form-field>
+            </ng-template>
+            <ng-template #elseBlock2>
+              <p class="item_data">{{user_info.user?.username}}</p>
+            </ng-template>
+        </div>
+        <div class="info_item bottom_line">
+          <p class="item_explain">Имя</p>
+          <div *ngIf="edit_mode; then thenBlock3 else elseBlock3"></div>
+            <ng-template #thenBlock3>
+              <mat-form-field class="edit_item_data" appearance="outline">
+                <mat-label>{{user_info.user?.first_name}}</mat-label>
+                <input matInput [(ngModel)]="user_info.user.first_name">
+              </mat-form-field>
+            </ng-template>
+            <ng-template #elseBlock3>
+              <p class="item_data">{{user_info.user?.first_name}}</p>
+            </ng-template>
+        </div>
+        <div class="info_item bottom_line">
+          <p class="item_explain">Фамилия</p>
+          <div *ngIf="edit_mode; then thenBlock4 else elseBlock4"></div>
+            <ng-template #thenBlock4>
+              <mat-form-field class="edit_item_data" appearance="outline">
+                <mat-label>{{user_info.user?.last_name}}</mat-label>
+                <input matInput [(ngModel)]="user_info.user.last_name">
+              </mat-form-field>
+            </ng-template>
+            <ng-template #elseBlock4>
+              <p class="item_data">{{user_info.user?.last_name}}</p>
+            </ng-template>
+        </div>
+        <div class="info_item bottom_line">
+          <p class="item_explain">Email</p>
+          <div *ngIf="edit_mode; then thenBlock5 else elseBlock5"></div>
+            <ng-template #thenBlock5>
+              <mat-form-field class="edit_item_data" appearance="outline">
+                <mat-label>{{user_info.user?.email}}</mat-label>
+                <input matInput [(ngModel)]="user_info.user.email">
+              </mat-form-field>
+            </ng-template>
+            <ng-template #elseBlock5>
+              <p class="item_data">{{user_info.user?.email}}</p>
+            </ng-template>
+        </div>
+        <div class="info_item bottom_line">
+          <p class="item_explain">Телефон</p>
+          <div *ngIf="edit_mode; then thenBlock6 else elseBlock6"></div>
+            <ng-template #thenBlock6>
+              <mat-form-field class="edit_item_data" appearance="outline">
+                <mat-label>{{user_info?.phone}}</mat-label>
+                <input matInput [(ngModel)]="user_info.phone">
+              </mat-form-field>
+            </ng-template>
+            <ng-template #elseBlock6>
+              <p class="item_data">{{user_info?.phone}}</p>
+            </ng-template>
+        </div>
+        <div class="info_item">
+          <p class="item_explain">Об игроке</p>
+          <div *ngIf="edit_mode; then thenBlock7 else elseBlock7"></div>
+            <ng-template #thenBlock7>
+              <textarea class="edit_item_data about" [(ngModel)]="user_info.about">{{user_info?.about}}</textarea>
+            </ng-template>
+            <ng-template #elseBlock7>
+              <textarea readonly class="item_data about">{{user_info?.about}}</textarea>
+            </ng-template>
+        </div>
+      </div>
+      <div class="photo_block">
+          <img class="avatar" src="http://127.0.0.1:8000/api/v1{{user_info?.photo}}">
+        <ng-template [ngIf]="edit_mode">
+          <div class="change_avatar">
+            <button mat-button class="top_button" (click)="fileInput.click()">
+              <span>Сменить фото</span>
+              <input #fileInput type="file" (change)="changePhoto($event)" style="display:none;">
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

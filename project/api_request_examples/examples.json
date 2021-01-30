@@ -1,0 +1,72 @@
+post /users/signup
+
+{
+    "User":{
+        "user":{
+            "username": "sasha",
+            "first_name": "Sasha",
+            "last_name": "Gulikova",
+            "email": "gulikova@mail.ru",
+            "password": "123"
+        },
+        "phone": "77777777",
+        "about": "Я Саша, хорошая девочка."
+    }
+}
+
+post /users/signin
+
+{
+    "User_signin":{
+        "username": "sasha",
+        "password": "123"
+    }
+}
+
+update /users/11
+
+{
+    "User_update":{
+        "phone":"6666666"
+    }
+}
+
+POST /friends
+
+{
+    "Friendship":{
+        "id": 1
+    }
+}
+
+UPDATE /friends/1
+
+{
+    "Status":{
+        "ready_to_play": true
+    }
+}
+
+POST /games
+
+{"Game":{
+    "player_1_id": 11,
+    "player_2_id": 1,
+    "game_state": {
+        "turn": "1",
+        "columns": 3,
+        "rows": 3,
+        "table_with_chips": "000000000"
+    }
+    }
+}
+
+PATCH /games/30
+
+{
+    "Game_state_update":{
+        "column_pos": 1,
+        "row_pos": 1,
+        "value": "1"
+    }
+}
