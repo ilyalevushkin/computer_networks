@@ -7,7 +7,7 @@ const Color _purple = Color.fromRGBO(65, 14, 130, 1);
 const String _primaryFontFamily = "Roboto";
 
 class LightAppBarTheme implements IAppBarTheme {
-  double get height => 100;
+  double get height => 50;
   Color get background => _yellow;
   Color get foreground => _purple;
 

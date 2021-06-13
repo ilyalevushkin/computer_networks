@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/services.dart';
+
 import 'package:flutter_squares/core/theme/i_theme/i_theme.dart';
 import 'package:flutter_squares/core/theme/light_theme/light_theme.dart';
 import 'package:flutter_squares/core/domain/repos/auth/auth_repo.dart';
@@ -27,6 +29,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+    ]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
     return BlocProvider(
       create: (context) => AuthBloc(
         authRepo: RepositoryProvider.of(context),
