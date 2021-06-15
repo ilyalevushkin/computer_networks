@@ -9,22 +9,16 @@ abstract class GameEvent extends Equatable {
 
 class BoardRequested extends GameEvent {}
 
-class PlayerListRequested extends GameEvent {
-  const PlayerListRequested(this.player);
-
-  final int player;
-
-  @override
-  List<Object> get props => [player];
-}
+class InitialTurnMade extends GameEvent {}
 
 class TurnMade extends GameEvent {
-  const TurnMade(this.turn);
+  const TurnMade(this.rowPos, this.columnPos);
 
-  final Turn turn;
+  final int rowPos;
+  final int columnPos;
 
   @override
-  List<Object> get props => [turn];
+  List<Object> get props => [rowPos, columnPos];
 }
 
 class SwitchBoard extends GameEvent {
@@ -35,7 +29,3 @@ class SwitchBoard extends GameEvent {
   @override
   List<Object> get props => [turnId];
 }
-
-class EnableBoard extends GameEvent {}
-
-class DisableBoard extends GameEvent {}

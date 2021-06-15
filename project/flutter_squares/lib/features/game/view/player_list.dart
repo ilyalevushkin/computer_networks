@@ -7,9 +7,9 @@ import 'package:flutter_squares/features/game/widgets/turn.dart';
 
 class PlayerList extends StatelessWidget {
 
-  final String player;
+  final String playerName;
 
-  PlayerList({required this.player});
+  PlayerList({required this.playerName});
 
   @override
   Widget build(BuildContext context) {
@@ -20,27 +20,27 @@ class PlayerList extends StatelessWidget {
               case GameStatus.failure:
                 return const Center(child: Text('failed to load game'));
               case GameStatus.success:
-                final List<Turn> turns = player == 'Player 1' ?
-                state.player1Turns : state.player2Turns;
-                if (turns.isEmpty) {
+                final List<Turn> reversedTurns = playerName == 'Player 1' ?
+                List.from(state.player1Turns.reversed) :
+                List.from(state.player2Turns.reversed);
+                if (reversedTurns.isEmpty) {
                   return const Center(child: Text('no turns'));
                 }
-                return Column(children: [
-                    Text(player),
-                    Expanded(child: Container(
-                      width: 50,
-                      margin: EdgeInsets.only(left: 12, top: 22),
+
+                return Container(
+                      padding: EdgeInsets.only(bottom: 24),
+                      margin: EdgeInsets.only(left: 8),
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
-                          Turn turn = turns[index];
-                          return TurnCard(turn: turn);
+                          Turn turn = reversedTurns[index];
+                          return TurnCard(turn: turn,
+                              lastTurnId: state.lastTurnId,
+                              boardLastTurnId: state.currentBoard.lastTurn.id);
                         },
-                        itemCount: turns.length,
-                        scrollDirection: Axis.vertical
+                        itemCount: reversedTurns.length,
+                        scrollDirection: Axis.horizontal
                       )
-                    ))
-                  ],
-                  );
+                    );
 
               default:
                 return const Center(child: CircularProgressIndicator());

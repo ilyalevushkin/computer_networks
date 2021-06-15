@@ -8,8 +8,11 @@ import 'package:flutter_squares/features/game/models/turn.dart';
 class TurnCard extends StatelessWidget {
 
   final Turn turn;
+  final int lastTurnId;
+  final int boardLastTurnId;
 
-  TurnCard({required this.turn});
+  TurnCard({required this.turn, required this.lastTurnId,
+  required this.boardLastTurnId});
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +21,25 @@ class TurnCard extends StatelessWidget {
       builder: (context, state) {
         final theme = context.read<ITheme>();
         return Container(
-            width: 50,
-            height: 30,
-            //decoration: theme.dishListTheme.dishCategoryDecoration,
+            width: 100,
+            margin: EdgeInsets.only(left: 16),
+            decoration: theme.playerListTheme.turnCardDecoration(
+                this.lastTurnId == this.turn.id,
+                this.turn.id == this.boardLastTurnId),
             //margin: theme.dishListTheme.dishCategoryMargin,
             child: TextButton(
               child: Text(
-                this.turn.id.toString(),
+                '+${this.turn.addScore.toString()}',
+                style: TextStyle(
+                  color: this.lastTurnId == this.turn.id ?
+                  theme.playerListTheme.lastIconTurnCardColor :
+                  theme.playerListTheme.iconTurnCardColor
+                ),
                 //style: theme.dishListTheme.textStyleCategoryName,
               ),
               onPressed: () {
+                context.read<GameBloc>()
+                    .add(SwitchBoard(this.turn.id));
               },
             ));
       },

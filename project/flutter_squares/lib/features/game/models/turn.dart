@@ -3,12 +3,20 @@ import 'package:flutter/material.dart';
 
 class Turn extends Equatable {
 
-  const Turn({
-    required this.id
+  Turn({
+    required this.id,
+    required this.player,
+    required this.rowPos,
+    required this.columnPos,
+    required this.addScore
   });
 
   final int id;
+  final int player;
+  final int rowPos;
+  final int columnPos;
+  int addScore;
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [id, player, rowPos, columnPos];
 }

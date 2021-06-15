@@ -30,7 +30,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
     ]);
     SystemChrome.setEnabledSystemUIOverlays([]);
     return BlocProvider(
