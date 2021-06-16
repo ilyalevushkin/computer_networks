@@ -79,95 +79,89 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     return ((pos < rows) && (pos >= 0));
   }
 
-  bool isUsualSquare(int leftDownRowPos, int leftDownColumnPos,
-      int rightUpRowPos, int rightUpColumnPos, List<List<int>> board,
-      int playerTurn) {
-    int leftUpRowPos = rightUpRowPos;
-    int leftUpColumnPos = leftDownColumnPos;
+  Map<String, List<int>> getSquareCorners(int leftDownRowPos, int leftDownColumnPos,
+      int rightUpRowPos, int rightUpColumnPos, bool diagonal) {
+    Map<String, List<int>> square = {
+      'Rows': [],
+      'Columns': []
+    };
+    if (diagonal) {
+      int middleDownRowPos = leftDownRowPos;
+      int middleDownColumnPos = leftDownColumnPos + (rightUpColumnPos - leftDownColumnPos) ~/ 2;
 
-    int rightDownRowPos = leftDownRowPos;
-    int rightDownColumnPos = rightUpColumnPos;
+      int middleUpRowPos = rightUpRowPos;
+      int middleUpColumnPos = middleDownColumnPos;
 
-    return (board[leftDownRowPos][leftDownColumnPos] == playerTurn) &&
-        (board[leftUpRowPos][leftUpColumnPos] == playerTurn) &&
-        (board[rightUpRowPos][rightUpColumnPos] == playerTurn) &&
-        (board[rightDownRowPos][rightDownColumnPos] == playerTurn);
+      int leftMiddleRowPos = leftDownRowPos + (rightUpRowPos - leftDownRowPos) ~/ 2;
+      int leftMiddleColumnPos = leftDownColumnPos;
+
+      int rightMiddleRowPos = leftMiddleRowPos;
+      int rightMiddleColumnPos = rightUpColumnPos;
+      square['Rows']!.addAll([middleDownRowPos, middleUpRowPos,
+        leftMiddleRowPos, rightMiddleRowPos]);
+      square['Columns']!.addAll([middleDownColumnPos, middleUpColumnPos,
+        leftMiddleColumnPos, rightMiddleColumnPos]);
+    }
+    else {
+      int leftUpRowPos = rightUpRowPos;
+      int leftUpColumnPos = leftDownColumnPos;
+
+      int rightDownRowPos = leftDownRowPos;
+      int rightDownColumnPos = rightUpColumnPos;
+      square['Rows']!.addAll([leftDownRowPos, rightUpRowPos,
+        leftUpRowPos, rightDownRowPos]);
+      square['Columns']!.addAll([leftDownColumnPos, rightUpColumnPos,
+        leftUpColumnPos, rightDownColumnPos]);
+    }
+    return square;
   }
 
-  bool isDiagonalSquare(int leftDownRowPos, int leftDownColumnPos,
-      int rightUpRowPos, int rightUpColumnPos, List<List<int>> board,
-      int playerTurn) {
-    int middleDownRowPos = leftDownRowPos;
-    int middleDownColumnPos = leftDownColumnPos + (rightUpColumnPos - leftDownColumnPos) ~/ 2;
-
-    int middleUpRowPos = rightUpRowPos;
-    int middleUpColumnPos = middleDownColumnPos;
-
-    int leftMiddleRowPos = leftDownRowPos + (rightUpRowPos - leftDownRowPos) ~/ 2;
-    int leftMiddleColumnPos = leftDownColumnPos;
-
-    int rightMiddleRowPos = leftMiddleRowPos;
-    int rightMiddleColumnPos = rightUpColumnPos;
-
-    return (board[middleDownRowPos][middleDownColumnPos] == playerTurn) &&
-        (board[middleUpRowPos][middleUpColumnPos] == playerTurn) &&
-        (board[leftMiddleRowPos][leftMiddleColumnPos] == playerTurn) &&
-        (board[rightMiddleRowPos][rightMiddleColumnPos] == playerTurn);
+  bool isSquare(List<List<int>> board, int playerTurn,
+  Map<String, List<int>> square) {
+    return (board[square['Rows']![0]][square['Columns']![0]] == playerTurn) &&
+        (board[square['Rows']![1]][square['Columns']![1]] == playerTurn) &&
+        (board[square['Rows']![2]][square['Columns']![2]] == playerTurn) &&
+        (board[square['Rows']![3]][square['Columns']![3]] == playerTurn);
   }
 
-  int calcUsualSquares(int rows, int columns, int rowPos, int columnPos,
-      int playerTurn, List<List<int>> board, int rowAdd, int columnAdd) {
-    int addScore = 0;
+  Turn calcUsualSquares(int rows, int columns, int rowPos, int columnPos,
+      int playerTurn, List<List<int>> board, int rowAdd, int columnAdd,
+      Turn newTurn) {
     int curRowPos = rowPos + rowAdd;
     int curColumnPos = columnPos + columnAdd;
     while (isPosInBoardShape(curRowPos, rows) &&
         isPosInBoardShape(curColumnPos, columns)) {
-      if (isUsualSquare(rowPos, columnPos,
-          curRowPos, curColumnPos, board, playerTurn)) {
-        addScore += 1 + ((rowPos - curRowPos).abs() - 1) * 2;
+      Map<String, List<int>> corners = getSquareCorners(rowPos, columnPos,
+          curRowPos, curColumnPos, false);
+      if (isSquare(board, playerTurn, corners)) {
+        newTurn.addScore += 1 + ((rowPos - curRowPos).abs() - 1) * 2;
+        newTurn.addedScoreDotsPos['Rows']!.addAll(corners['Rows']!);
+        newTurn.addedScoreDotsPos['Columns']!.addAll(corners['Columns']!);
       }
       curRowPos += rowAdd;
       curColumnPos += columnAdd;
     }
-    return addScore;
+    return newTurn;
   }
 
-  int calcDiagonalSquares(int rows, int columns, int rowPos, int columnPos,
-      int playerTurn, List<List<int>> board, int rowAdd, int columnAdd) {
-    int addScore = 0;
-    int curRowPos = rowPos + rowAdd;
-    int curColumnPos = columnPos + columnAdd;
-    while (isPosInBoardShape(curRowPos, rows) &&
-        isPosInBoardShape(curColumnPos, columns)) {
-      if (isDiagonalSquare(rowPos, columnPos,
-          curRowPos, curColumnPos, board, playerTurn)) {
-        addScore += 1 + ((rowPos - curRowPos).abs() - 1) * 2;
-      }
-      curRowPos += rowAdd;
-      curColumnPos += columnAdd;
-    }
-    return addScore;
-  }
-
-  int calcScoreAddByTurn(int rowPos, int columnPos, int playerTurn,
-  List<List<int>> board) {
+  Turn calcScoreAddByTurn(int rowPos, int columnPos, int playerTurn,
+  List<List<int>> board, Turn newTurn) {
     int rows = board.length;
     int columns = board[0].length;
-    int addScore = 0;
 
     // считаем обычные квадраты
     // идем вправо вверх
-    addScore += calcUsualSquares(rows, columns, rowPos, columnPos,
-        playerTurn, board, -1, 1);
+    newTurn = calcUsualSquares(rows, columns, rowPos, columnPos,
+        playerTurn, board, -1, 1, newTurn);
     // идем вправо вниз
-    addScore += calcUsualSquares(rows, columns, rowPos, columnPos,
-        playerTurn, board, 1, 1);
+    newTurn = calcUsualSquares(rows, columns, rowPos, columnPos,
+        playerTurn, board, 1, 1, newTurn);
     // идем влево вниз
-    addScore += calcUsualSquares(rows, columns, rowPos, columnPos,
-        playerTurn, board, 1, -1);
+    newTurn = calcUsualSquares(rows, columns, rowPos, columnPos,
+        playerTurn, board, 1, -1, newTurn);
     // идем влево вверх
-    addScore += calcUsualSquares(rows, columns, rowPos, columnPos,
-        playerTurn, board, -1, -1);
+    newTurn = calcUsualSquares(rows, columns, rowPos, columnPos,
+        playerTurn, board, -1, -1, newTurn);
 
     // считаем диагональные квадраты
     // идем вверх
@@ -183,9 +177,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         isPosInBoardShape(leftDownColumnPos, columns) &&
         isPosInBoardShape(rightUpRowPos, rows) &&
         isPosInBoardShape(rightUpColumnPos, columns)) {
-      if (isDiagonalSquare(leftDownRowPos, leftDownColumnPos,
-          rightUpRowPos, rightUpColumnPos, board, playerTurn)) {
-        addScore += 2 + ((rowPos - curRowPos).abs() - 1) * 2;
+      Map<String, List<int>> corners = getSquareCorners(leftDownRowPos, leftDownColumnPos,
+          rightUpRowPos, rightUpColumnPos, true);
+      if (isSquare(board, playerTurn, corners)) {
+        newTurn.addScore += 2 + ((rowPos - curRowPos).abs() - 1) * 2;
+        newTurn.addedScoreDotsPos['Rows']!.addAll(corners['Rows']!);
+        newTurn.addedScoreDotsPos['Columns']!.addAll(corners['Columns']!);
       }
       curRowPos -= 1;
       curColumnPos += 1;
@@ -208,9 +205,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         isPosInBoardShape(leftDownColumnPos, columns) &&
         isPosInBoardShape(rightUpRowPos, rows) &&
         isPosInBoardShape(rightUpColumnPos, columns)) {
-      if (isDiagonalSquare(leftDownRowPos, leftDownColumnPos,
-          rightUpRowPos, rightUpColumnPos, board, playerTurn)) {
-        addScore += 2 + ((rowPos - curRowPos).abs() - 1) * 2;
+      Map<String, List<int>> corners = getSquareCorners(leftDownRowPos, leftDownColumnPos,
+          rightUpRowPos, rightUpColumnPos, true);
+      if (isSquare(board, playerTurn, corners)) {
+        newTurn.addScore += 2 + ((rowPos - curRowPos).abs() - 1) * 2;
+        newTurn.addedScoreDotsPos['Rows']!.addAll(corners['Rows']!);
+        newTurn.addedScoreDotsPos['Columns']!.addAll(corners['Columns']!);
       }
       curRowPos += 1;
       curColumnPos += 1;
@@ -233,9 +233,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         isPosInBoardShape(leftDownColumnPos, columns) &&
         isPosInBoardShape(rightUpRowPos, rows) &&
         isPosInBoardShape(rightUpColumnPos, columns)) {
-      if (isDiagonalSquare(leftDownRowPos, leftDownColumnPos,
-          rightUpRowPos, rightUpColumnPos, board, playerTurn)) {
-        addScore += 2 + ((rowPos - curRowPos).abs() - 1) * 2;
+      Map<String, List<int>> corners = getSquareCorners(leftDownRowPos, leftDownColumnPos,
+          rightUpRowPos, rightUpColumnPos, true);
+      if (isSquare(board, playerTurn, corners)) {
+        newTurn.addScore += 2 + ((rowPos - curRowPos).abs() - 1) * 2;
+        newTurn.addedScoreDotsPos['Rows']!.addAll(corners['Rows']!);
+        newTurn.addedScoreDotsPos['Columns']!.addAll(corners['Columns']!);
       }
       curRowPos += 1;
       curColumnPos -= 1;
@@ -258,9 +261,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         isPosInBoardShape(leftDownColumnPos, columns) &&
         isPosInBoardShape(rightUpRowPos, rows) &&
         isPosInBoardShape(rightUpColumnPos, columns)) {
-      if (isDiagonalSquare(leftDownRowPos, leftDownColumnPos,
-          rightUpRowPos, rightUpColumnPos, board, playerTurn)) {
-        addScore += 2 + ((rowPos - curRowPos).abs() - 1) * 2;
+      Map<String, List<int>> corners = getSquareCorners(leftDownRowPos, leftDownColumnPos,
+          rightUpRowPos, rightUpColumnPos, true);
+      if (isSquare(board, playerTurn, corners)) {
+        newTurn.addScore += 2 + ((rowPos - curRowPos).abs() - 1) * 2;
+        newTurn.addedScoreDotsPos['Rows']!.addAll(corners['Rows']!);
+        newTurn.addedScoreDotsPos['Columns']!.addAll(corners['Columns']!);
       }
       curRowPos -= 1;
       curColumnPos -= 1;
@@ -270,7 +276,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       rightUpRowPos = curRowPos;
       rightUpColumnPos = columnPos;
     }
-    return addScore;
+    return newTurn;
   }
 
   GameState _mapTurnMadeToState(TurnMade event, GameState state) {
@@ -285,11 +291,15 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         player: state.currentBoard.playerTurn,
         rowPos: event.rowPos,
         columnPos: event.columnPos,
-        addScore: 0);
+        addScore: 0,
+        addedScoreDotsPos: {
+          'Rows': [],
+          'Columns': []
+        });
     Board updateBoard = this.updateBoard(newTurn, state.currentBoard);
-    newTurn.addScore = calcScoreAddByTurn(event.rowPos,
+    newTurn = calcScoreAddByTurn(event.rowPos,
         event.columnPos, state.currentBoard.playerTurn,
-        state.currentBoard.board);
+        state.currentBoard.board, newTurn);
     List<Turn> playerTurns = newTurn.player == 1 ? state.player1Turns :
         state.player2Turns;
     playerTurns.add(newTurn);

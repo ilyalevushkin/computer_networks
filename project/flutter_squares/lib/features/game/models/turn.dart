@@ -8,7 +8,11 @@ class Turn extends Equatable {
     required this.player,
     required this.rowPos,
     required this.columnPos,
-    required this.addScore
+    required this.addScore,
+    this.addedScoreDotsPos = const {
+      'Rows': [],
+      'Columns': []
+    },
   });
 
   final int id;
@@ -16,7 +20,8 @@ class Turn extends Equatable {
   final int rowPos;
   final int columnPos;
   int addScore;
+  Map<String, List<int>> addedScoreDotsPos;
 
   @override
-  List<Object> get props => [id, player, rowPos, columnPos];
+  List<Object> get props => [id, player, rowPos, columnPos, addedScoreDotsPos];
 }

@@ -6,7 +6,53 @@ import 'package:flutter_squares/features/game/view/board.dart';
 import 'package:flutter_squares/features/game/view/player_list.dart';
 import 'package:flutter_squares/features/game/widgets/score_results.dart';
 
-class GamePage extends StatelessWidget {
+class GamePage extends StatefulWidget {
+  @override
+  _GamePageState createState() => _GamePageState();
+}
+
+class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin {
+
+  late Animation animation;
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(vsync: this,
+        duration: Duration(seconds: 1));
+
+    TweenSequence<double> tweenSequence = TweenSequence<double>(
+      <TweenSequenceItem<double>>[
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.0, end: 0.2)
+              .chain(CurveTween(curve: Curves.easeIn)),
+          weight: 50.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 0.2, end: 1.0)
+              .chain(CurveTween(curve: Curves.easeIn)),
+          weight: 50.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.0, end: 0.2)
+              .chain(CurveTween(curve: Curves.easeIn)),
+          weight: 50.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 0.2, end: 1.0)
+              .chain(CurveTween(curve: Curves.easeIn)),
+          weight: 50.0,
+        ),
+      ],
+    );
+    animation = tweenSequence.animate(controller);
+    animation.addListener(() {
+      setState(() {
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = context.read<ITheme>();
@@ -28,10 +74,10 @@ class GamePage extends StatelessWidget {
                   state.currentBoard.lastTurn.addScore : -1)
               ),
               Expanded(flex: 1, child:
-                PlayerList(playerName: 'Player 1')
+                PlayerList(playerName: 'Player 1', controller: controller,)
               ),
               Expanded(flex: 4, child:
-                Board()
+                Board(controller: controller, animation: animation,)
               ),
               Expanded(flex: 1, child:
                 ScoreResult(playerName: 'Player 2',
@@ -40,7 +86,7 @@ class GamePage extends StatelessWidget {
                   state.currentBoard.lastTurn.addScore : -1)
               ),
               Expanded(flex: 1, child:
-                PlayerList(playerName: 'Player 2')
+                PlayerList(playerName: 'Player 2', controller: controller,)
               ),
             ],
           ),

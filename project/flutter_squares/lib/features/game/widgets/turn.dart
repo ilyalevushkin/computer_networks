@@ -10,9 +10,10 @@ class TurnCard extends StatelessWidget {
   final Turn turn;
   final int lastTurnId;
   final int boardLastTurnId;
+  final AnimationController controller;
 
   TurnCard({required this.turn, required this.lastTurnId,
-  required this.boardLastTurnId});
+  required this.boardLastTurnId, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,8 @@ class TurnCard extends StatelessWidget {
               onPressed: () {
                 context.read<GameBloc>()
                     .add(SwitchBoard(this.turn.id));
+                controller.reset();
+                controller.forward();
               },
             ));
       },

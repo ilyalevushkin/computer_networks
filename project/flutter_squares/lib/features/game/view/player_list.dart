@@ -8,8 +8,10 @@ import 'package:flutter_squares/features/game/widgets/turn.dart';
 class PlayerList extends StatelessWidget {
 
   final String playerName;
+  final AnimationController controller;
 
-  PlayerList({required this.playerName});
+  PlayerList({required this.playerName,
+  required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,8 @@ class PlayerList extends StatelessWidget {
                           Turn turn = reversedTurns[index];
                           return TurnCard(turn: turn,
                               lastTurnId: state.lastTurnId,
-                              boardLastTurnId: state.currentBoard.lastTurn.id);
+                              boardLastTurnId: state.currentBoard.lastTurn.id,
+                          controller: controller,);
                         },
                         itemCount: reversedTurns.length,
                         scrollDirection: Axis.horizontal
