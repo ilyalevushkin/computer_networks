@@ -67,25 +67,25 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
           ),
           child: Column(
             children: [
-              Expanded(flex: 1, child:
+              Expanded(flex: 2, child:
                 ScoreResult(playerName: 'Player 1',
                   totalPlayerScore: state.currentBoard.totalScorePlayer1,
                   addPlayerScore: state.currentBoard.lastTurn.player == 1 ?
                   state.currentBoard.lastTurn.addScore : -1)
               ),
-              Expanded(flex: 1, child:
+              Expanded(flex: 2, child:
                 PlayerList(playerName: 'Player 1', controller: controller,)
               ),
-              Expanded(flex: 4, child:
+              Expanded(flex: 9, child:
                 Board(controller: controller, animation: animation,)
               ),
-              Expanded(flex: 1, child:
+              Expanded(flex: 2, child:
                 ScoreResult(playerName: 'Player 2',
                   totalPlayerScore: state.currentBoard.totalScorePlayer2,
                   addPlayerScore: state.currentBoard.lastTurn.player == 2 ?
                   state.currentBoard.lastTurn.addScore : -1)
               ),
-              Expanded(flex: 1, child:
+              Expanded(flex: 2, child:
                 PlayerList(playerName: 'Player 2', controller: controller,)
               ),
             ],

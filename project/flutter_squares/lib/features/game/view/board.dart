@@ -44,10 +44,6 @@ class _BoardState extends State<Board> {
         //buildWhen: (previous, current) => previous.currentBoard != current.currentBoard,
         builder: (context, state) {
           return Container(
-                  clipBehavior : Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0)
-                  ),
                   child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: state.currentBoard.rows,
