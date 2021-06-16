@@ -7,6 +7,7 @@ part 'light_game_theme/light_board_theme.dart';
 part 'light_game_theme/light_player_list_theme.dart';
 part 'light_game_theme/light_game_page_theme.dart';
 part 'light_game_theme/light_score_results_theme.dart';
+part 'light_game_theme/light_game_results_theme.dart';
 
 const Color _white = Color.fromRGBO(136, 135, 133, 1);
 const Color _white2 = Color.fromRGBO(191, 190, 186, 1);
@@ -25,6 +26,7 @@ class LightTheme implements ITheme {
   static LightPlayerListTheme _playerListTheme = LightPlayerListTheme();
   static LightGamePageTheme  _gamePageTheme = LightGamePageTheme();
   static LightScoreResultsTheme _scoreResultsTheme = LightScoreResultsTheme();
+  static LightGameResultsTheme _gameResultsTheme = LightGameResultsTheme();
 
   @override
   IAppBarTheme get appBarTheme => _appBarTheme;
@@ -40,5 +42,8 @@ class LightTheme implements ITheme {
 
   @override
   IScoreResultsTheme get scoreResultsTheme => _scoreResultsTheme;
+
+  @override
+  IGameResultsTheme get gameResultsTheme => _gameResultsTheme;
 
 }

@@ -6,6 +6,8 @@ import 'package:flutter_squares/features/game/view/board.dart';
 import 'package:flutter_squares/features/game/view/player_list.dart';
 import 'package:flutter_squares/features/game/widgets/score_results.dart';
 
+import 'game_results.dart';
+
 class GamePage extends StatefulWidget {
   @override
   _GamePageState createState() => _GamePageState();
@@ -60,7 +62,7 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
       create: (context) => GameBloc(),
       child: BlocBuilder<GameBloc, GameState>(
       builder: (context, state) {
-        return Align(alignment: Alignment.topCenter,
+        Widget game = Align(alignment: Alignment.topCenter,
         child: Container(
           decoration: BoxDecoration(
             color: theme.gamePageTheme.backgroundColor
@@ -92,6 +94,19 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
           ),
         )
       );
+        if (state.currentBoard.isFull) {
+          return Stack(
+            alignment: AlignmentDirectional.center,
+            textDirection: TextDirection.ltr,
+            children: [game,
+              GameResults(scorePlayer1: state.currentBoard.totalScorePlayer1,
+                  scorePlayer2: state.currentBoard.totalScorePlayer2)
+            ],
+          );
+        }
+        else {
+          return game;
+        }
       }
       )
     );

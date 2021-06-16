@@ -68,22 +68,20 @@ class _BoardState extends State<Board> {
                     rowPos, columnPos);
                     double opacity = isLastAddedScore ? animation.value : 1;
                     return Container(
-                      child: RawMaterialButton(
-                        child: (pressedBySb != 0) ? Icon(
-                          Icons.circle,
-                          color: pressedBySb == 1 ? Colors.black : Colors.white,
-                        ) : null,
-                        onPressed: (pressedBySb == 0) && (state.currentBoard.enabled)
-                            ? () {
-                          context.read<GameBloc>().add(TurnMade(rowPos, columnPos));
-                          controller.reset();
-                          controller.forward();
-                        } : null,
-                      ),
-                      color: darkColor ? Color.fromRGBO(202, 114, 65, opacity) :
-                      Color.fromRGBO(238, 222, 192, opacity),
-
-                    );
+                        child: RawMaterialButton(
+                          child: (pressedBySb != 0) ? Icon(Icons.circle,
+                                    color: pressedBySb == 1 ?
+                                    Colors.black : Colors.white) : null,
+                          onPressed: (pressedBySb == 0) && (state.currentBoard.enabled)
+                              ? () {
+                            context.read<GameBloc>().add(TurnMade(rowPos, columnPos));
+                            controller.reset();
+                            controller.forward();
+                          } : null,
+                        ),
+                        color: darkColor ? Color.fromRGBO(202, 114, 65, opacity) :
+                        Color.fromRGBO(238, 222, 192, opacity),
+                      );
                   }));
         }
     );

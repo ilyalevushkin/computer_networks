@@ -11,7 +11,8 @@ class Board extends Equatable {
     this.enabled = true,
     this.totalScorePlayer1 = 0,
     this.totalScorePlayer2 = 0,
-    this.board = const []
+    this.board = const [],
+    this.isFull = false
   }) {
     if (this.board.isEmpty) {
       this.board = List.generate(this.rows,
@@ -27,9 +28,10 @@ class Board extends Equatable {
   int totalScorePlayer1;
   int totalScorePlayer2;
   final bool enabled;
+  final bool isFull;
   List<List<int>> board;
 
   @override
   List<Object> get props => [rows, columns, totalScorePlayer1,
-    totalScorePlayer2, playerTurn, board, lastTurn];
+    totalScorePlayer2, playerTurn, board, lastTurn, isFull];
 }

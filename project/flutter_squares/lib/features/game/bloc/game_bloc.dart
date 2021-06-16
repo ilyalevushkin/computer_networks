@@ -64,6 +64,15 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     );
   }
 
+  bool isBoardFulled(List<List<int>> board) {
+    for (int i = 0; i < board.length; i++) {
+      if (board[i].contains(0)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   Board updateBoard(Turn newTurn, Board currentBoard) {
     currentBoard.board[newTurn.rowPos][newTurn.columnPos] = newTurn.player;
     return Board(playerTurn: newTurn.player == 1 ? 2 : 1,
@@ -71,6 +80,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         columns: currentBoard.columns,
         lastTurn: newTurn,
         board: currentBoard.board,
+        isFull: isBoardFulled(currentBoard.board),
         totalScorePlayer1: currentBoard.totalScorePlayer1,
         totalScorePlayer2: currentBoard.totalScorePlayer2);
   }
